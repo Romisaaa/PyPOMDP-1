@@ -16,7 +16,7 @@ class PBVI(Solver):
 
     def add_configs(self, belief_points):
         Solver.add_configs(self)
-        self.alpha_vecs = [AlphaVector(a=-1, v=np.zeros(self.model.num_states))] # filled with a dummy alpha vector
+        self.alpha_vecs = [AlphaVector(a=-1, v=np.zeros(self.model.num_states))]  # filled with a dummy alpha vector
         self.belief_points = belief_points
         self.compute_gamma_reward()
 
@@ -47,8 +47,8 @@ class PBVI(Solver):
             for i, si in enumerate(m.states):
                 for j, sj in enumerate(m.states):
                     v[i] += m.transition_function(a, si, sj) * \
-                        m.observation_function(a, sj, o) * \
-                        alpha.v[j]
+                            m.observation_function(a, sj, o) * \
+                            alpha.v[j]
                 v[i] *= m.discount
             gamma_action_obs.append(v)
         return gamma_action_obs
@@ -98,6 +98,24 @@ class PBVI(Solver):
 
                 self.alpha_vecs.append(AlphaVector(a=best_aa, v=best_av))
 
+            str_step2 = str(step)
+            file_name = "alpha_vecs" + str_step2 + ".txt"
+            f = open(file_name, "a+")
+            # f.write(str(best_aa)+"\t")
+            # f.write(str(best_av))
+            for alph_vector in self.alpha_vecs:
+                for i in range(len(alph_vector.v)):
+                    f.write(str(alph_vector.v[i]) + "\t")
+                f.write("\n")
+            f.close()
+
+            str_step3 = str(step)
+            file_name2 = "actions" + str_step3 + ".txt"
+            f = open(file_name2, "a+")
+            for alph_vector in self.alpha_vecs:
+                f.write(str(alph_vector.action) + "\n")
+            f.close()
+
         self.solved = True
 
     def get_action(self, belief):
@@ -110,7 +128,7 @@ class PBVI(Solver):
                 best = av
 
         return best.action
-    
+
     def update_belief(self, belief, action, obs):
         m = self.model
 

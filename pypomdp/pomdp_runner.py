@@ -5,6 +5,7 @@ from solvers import POMCP, PBVI
 from parsers import PomdpParser, GraphViz
 from logger import Logger as log
 
+
 class PomdpRunner:
 
     def __init__(self, params):
@@ -52,7 +53,11 @@ class PomdpRunner:
             pomdp = self.create_solver(algo, model)
 
             # supply additional algo params
-            belief = ctx.random_beliefs() if params.random_prior else ctx.generate_beliefs()
+            # belief = ctx.random_beliefs() if params.random_prior else ctx.generate_beliefs()
+            # Just for Russel 4x3 problem we changed the belief since all sates are not equiprobable
+            # the agent should not be in terminal states 3 and 6
+            belief = [0.111111, 0.111111, 0.111111, 0.0, 0.111111, 0.111111, 0.0, 0.111112, 0.111111, 0.111111,
+                      0.111111]
 
             if algo == 'pbvi':
                 belief_points = ctx.generate_belief_points(kwargs['stepsize'])
@@ -79,26 +84,39 @@ class PomdpRunner:
             if params.snapshot and isinstance(pomdp, POMCP):
                 # takes snapshot of belief tree before it gets updated
                 self.snapshot_tree(visualiser, pomdp.tree, '{}.gv'.format(i))
-            
+
             # update states
             belief = pomdp.update_belief(belief, action, obs)
             total_rewards += reward
             budget -= cost
 
+            # writing total rewards in a file
+            f = open("totalRewards.txt", "a+")
+            f.write(str(total_rewards) + "\n")
+            f.close()
+
             # print ino
             log.info('\n'.join([
-              'Taking action: {}'.format(action),
-              'Observation: {}'.format(obs),
-              'Reward: {}'.format(reward),
-              'Budget: {}'.format(budget),
-              'New state: {}'.format(new_state),
-              'New Belief: {}'.format(belief),
-              '=' * 20
+                'Taking action: {}'.format(action),
+                'Observation: {}'.format(obs),
+                'Reward: {}'.format(reward),
+                'Budget: {}'.format(budget),
+                'New state: {}'.format(new_state),
+                'New Belief: {}'.format(belief),
+                '=' * 20
             ]))
 
             if budget <= 0:
                 log.info('Budget spent.')
 
+            # Writing log file
+            f = open("logFile.txt", "a+")
+            f.write("Step: " + str(i) + "\n")
+            f.write("Action: " + str(action) + ", Observation: " + str(obs) + ", New state: " + str(new_state) +
+                    ", Reward: " + str(reward) + "\n")
+            f.write("New Belief: " + str(belief) + "\n")
+            f.write("**************************** \n")
+            f.close()
 
         log.info('{} games played. Toal reward = {}'.format(i + 1, total_rewards))
         return pomdp
