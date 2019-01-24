@@ -41,14 +41,22 @@ class PomdpParser:
 
             # go through line by line and extract configurations
             i = 0
+            # print(" ****** self.contents", self.contents)
+            # print(" **** len:, ", len(self.contents))
             while i < len(self.contents):
+                # print("%%%% i: ", i)
                 line = self.contents[i]
                 attr = [a for a in attrs if line.startswith(a)]
+                # print("$$$$$$$$$$ attr: ", attr)
+                # print("len(attr)", len(attr))
 
                 if not attr:
                     raise Exception("Unrecognized line: " + line)
+                # print('_PomdpParser__get_' + attr[0])
+                # print("getattr(self, '_PomdpParser__get_' + attr[0]): ", getattr(self, '_PomdpParser__get_' + attr[0]))
+                # print("getattr(self, '_PomdpParser__get_' + attr[0])(i):", getattr(self, '_PomdpParser__get_' + attr[0])(i))
                 i = getattr(self, '_PomdpParser__get_' + attr[0])(i)
-
+            # print("**** self.states:   ", self.states)
         return self
 
     def __exit__(self, ctx_type, ctx_value, ctx_traceback):
@@ -56,12 +64,16 @@ class PomdpParser:
 
     def __get_model(self):
         fname = os.path.basename(self.config_file)
+        # print(" ***** config_file: ", self.config_file)
+        # print(" ***** fname: ", fname)
         if '-' in fname:
             name, spec = fname.split('-')
             self.model_spec = spec.split('.')[0]
             self.model_name = name.split('.')[0]
         else:
             self.model_name = fname.split('.')[0]
+
+        # print(" &&& self.model_spec: ", self.model_spec)
 
     def __get_discount(self, i):
         line = self.contents[i]
@@ -112,6 +124,7 @@ class PomdpParser:
     def __get_T(self, i):
         line = self.contents[i]
         pieces = [x for x in line.split() if (x.find(':') == -1)]
+        # print(" *** pieces:  ", pieces)
         # try:
         #     pieces = map(float, pieces)
         # except Exception:
@@ -181,6 +194,9 @@ class PomdpParser:
         #     pass
         action = pieces[0]
 
+        # print("&&&&&&& pieces: ", pieces)
+        # print("&&&&&&& action: ", action)
+
         if len(pieces) == 4:
             # case 1: O: <action> : <next-state> : <obs> %f
             next_state, obs, prob = pieces[1], pieces[2], float(pieces[3])
@@ -201,9 +217,25 @@ class PomdpParser:
             next_line = self.contents[i+1]
             probs = next_line.split()
             assert len(probs) == len(self.observations)
-            for j, obs in enumerate(self.observations):
-                self.Z[(action, next_state, obs)] = float(probs[j])
-            return i + 2
+            # print("$$$$ action.type:  ", type(action))
+            # print(" $$$$ action: ", action)
+            if action == "*":
+                counter = i
+                for act in self.actions:
+                    # print("$$$$ act: ", act)
+                    for j, obs in enumerate(self.observations):
+                        self.Z[(act, next_state, obs)] = float(probs[j])
+                    # counter = counter + 2
+                    # print("**** len self.Z: ", len(self.Z))
+                    # print("*** type self.Z: ", type(self.Z))
+                    # f = open("checkKKKingZZZZZZ.txt", "w+")
+                    # f.write(str(self.Z)+"\n")
+                    # f.close()
+                return counter + 2
+            else:
+                for j, obs in enumerate(self.observations):
+                    self.Z[(action, next_state, obs)] = float(probs[j])
+                return i + 2
         elif len(pieces) == 1:
             next_line = self.contents[i+1]
             if next_line == "identity":
@@ -364,4 +396,8 @@ class PomdpParser:
     def generate_belief_points(self, stepsize):
         # must be many better ways to do it
         beliefs = [[random.uniform() for s in self.states] for p in arange(0., 1. + stepsize, stepsize)]
+        # print(" ***** beleifs are:", beliefs)
+        # print(" \n ***** beleifs type:", type(beliefs))
+        # print(" \n***** lrngth beleifs:", len(beliefs))
+
         return array(beliefs)

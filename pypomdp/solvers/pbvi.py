@@ -54,12 +54,16 @@ class PBVI(Solver):
         return gamma_action_obs
 
     def solve(self, T):
-        if self.solved:
-            return
+        # We want it always solve the problem to see the performance during time
+        # if self.solved:
+        #     print("In if")
+        #     return
 
+        # print(" outside if")
         m = self.model
         for step in range(T):
 
+            print(" oooo  Step: ", step, "  oooo")
             # First compute a set of updated vectors for every action/observation pair
             # Action(a) => Observation(o) => UpdateOfAlphaVector (a, o)
             gamma_intermediate = {
@@ -98,27 +102,37 @@ class PBVI(Solver):
 
                 self.alpha_vecs.append(AlphaVector(a=best_aa, v=best_av))
 
-            str_step2 = str(step)
-            file_name = "alpha_vecs" + str_step2 + ".txt"
-            f = open(file_name, "a+")
-            # f.write(str(best_aa)+"\t")
-            # f.write(str(best_av))
-            for alph_vector in self.alpha_vecs:
-                for i in range(len(alph_vector.v)):
-                    f.write(str(alph_vector.v[i]) + "\t")
-                f.write("\n")
-            f.close()
-
-            str_step3 = str(step)
-            file_name2 = "actions" + str_step3 + ".txt"
-            f = open(file_name2, "a+")
-            for alph_vector in self.alpha_vecs:
-                f.write(str(alph_vector.action) + "\n")
-            f.close()
+            # str_step2 = str(step)
+            # file_name = "alpha_vecs" + str_step2 + ".txt"
+            # f = open(file_name, "w+")
+            # # f.write(str(best_aa)+"\t")
+            # # f.write(str(best_av))
+            # for alph_vector in self.alpha_vecs:
+            #     for i in range(len(alph_vector.v)):
+            #         f.write(str(alph_vector.v[i]) + "\t")
+            #     f.write("\n")
+            # f.close()
+            #
+            # str_step3 = str(step)
+            # file_name2 = "actions" + str_step3 + ".txt"
+            # f = open(file_name2, "a+")
+            # for alph_vector in self.alpha_vecs:
+            #     f.write(str(alph_vector.action) + "\n")
+            # f.close()
 
         self.solved = True
 
     def get_action(self, belief):
+        # We change the function to get epsilon greedy action
+        # for now we set epsilon=0.1
+        random_num = np.random.randint(10)
+        print(" ^^^^ random_num: ", random_num)
+        if random_num == 0:
+            m = self.model
+            random_action = np.random.randint(m.num_actions)
+            print("**** random_action: ", random_action)
+            return str(random_action)
+
         max_v = -np.inf
         best = None
         for av in self.alpha_vecs:

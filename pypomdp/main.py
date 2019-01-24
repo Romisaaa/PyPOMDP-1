@@ -12,8 +12,6 @@ if __name__ == '__main__':
     Algorithm configurations the JSON files in ./configs
 
     Example usage:
-        > python main.py pomcp --env Tiger-2D.POMDP
-        > python main.py pbvi --env Tiger-2D.POMDP
     """
     parser = argparse.ArgumentParser(description='Solve pomdp')
     parser.add_argument('config', type=str, help='The file name of algorithm configuration (without JSON extension)')
@@ -26,9 +24,13 @@ if __name__ == '__main__':
     parser.add_argument('--max_play', type=int, default=100, help='Maximum number of play steps')
 
     args = vars(parser.parse_args())
+    print("\n ********************* \n")
+    print("args:  ", args)
     params = RunnerParams(**args)
+    print("\n \t params:", params.config)
 
     with open(params.algo_config) as algo_config:
         algo_params = json.load(algo_config)
+        print("algo_params: ", algo_params)
         runner = PomdpRunner(params)
         runner.run(**algo_params)

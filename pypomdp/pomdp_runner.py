@@ -56,8 +56,11 @@ class PomdpRunner:
             # belief = ctx.random_beliefs() if params.random_prior else ctx.generate_beliefs()
             # Just for Russel 4x3 problem we changed the belief since all sates are not equiprobable
             # the agent should not be in terminal states 3 and 6
-            belief = [0.111111, 0.111111, 0.111111, 0.0, 0.111111, 0.111111, 0.0, 0.111112, 0.111111, 0.111111,
-                      0.111111]
+            # belief = [0.111111, 0.111111, 0.111111, 0.0, 0.111111, 0.111111, 0.0, 0.111112, 0.111111, 0.111111,
+            #           0.111111]
+            belief = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0,
+                      0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
             if algo == 'pbvi':
                 belief_points = ctx.generate_belief_points(kwargs['stepsize'])
@@ -77,7 +80,25 @@ class PomdpRunner:
 
         for i in range(params.max_play):
             # plan, take action and receive environment feedbacks
+            print("*****  play game:  ", i, "  *****")
             pomdp.solve(T)
+
+            str_step2 = str(i)
+            file_name = "alpha_vecs" + str_step2 + ".txt"
+            f = open(file_name, "w+")
+            for alph_vector in pomdp.alpha_vecs:
+                for i in range(len(alph_vector.v)):
+                    f.write(str(alph_vector.v[i]) + "\t")
+                f.write("\n")
+            f.close()
+
+            str_step3 = str(i)
+            file_name2 = "actions" + str_step3 + ".txt"
+            f = open(file_name2, "a+")
+            for alph_vector in pomdp.alpha_vecs:
+                f.write(str(alph_vector.action) + "\n")
+            f.close()
+
             action = pomdp.get_action(belief)
             new_state, obs, reward, cost = pomdp.take_action(action)
 
@@ -89,6 +110,11 @@ class PomdpRunner:
             belief = pomdp.update_belief(belief, action, obs)
             total_rewards += reward
             budget -= cost
+
+            # writing total rewards in a file
+            f = open("Rewards.txt", "a+")
+            f.write(str(reward) + "\n")
+            f.close()
 
             # writing total rewards in a file
             f = open("totalRewards.txt", "a+")

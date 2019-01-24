@@ -2,6 +2,7 @@ import os
 
 ROOT = os.getcwd()
 
+
 class RunnerParams:
 	def __init__(self, env, logfile, config, budget, max_play, snapshot, random_prior):
 		# given params
@@ -15,6 +16,7 @@ class RunnerParams:
 
 		# default params
 		self.config_folder = os.path.join(ROOT, 'configs')
+		print("\n ROOT:", ROOT)
 		self.env_folder = os.path.join(ROOT, 'environments', 'pomdp')
 
 	@property

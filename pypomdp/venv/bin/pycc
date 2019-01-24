@@ -1,0 +1,3 @@
+#!/home/sara/myProjects/pythonProjects/myPyPOMDP/pypomdp/venv/bin/python
+from numba.pycc import main
+main()

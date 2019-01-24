@@ -1,0 +1,400 @@
+Step: 0
+Action: n, Observation: left, New state: 0, Reward: -0.04
+New Belief: [0.6206894625444569, 0.0, 0.0, 0.0, 0.0, 0.31034473127222845, 0.0, 0.0689658061833146, 0.0, 0.0, 0.0]
+**************************** 
+Step: 1
+Action: n, Observation: left, New state: 0, Reward: -0.04
+New Belief: [0.9364161362557593, 0.0, 0.0, 0.0, 0.0, 0.05202311868087552, 0.0, 0.011560745063365263, 0.0, 0.0, 0.0]
+**************************** 
+Step: 2
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 0.9744360374740867, 0.006766916926903381, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01203012867210667, 0.006766916926903381, 0.0]
+**************************** 
+Step: 3
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 0.19729029212595886, 0.789846204240384, 0.0, 0.0, 0.0, 0.0, 0.0, 0.003120729315970212, 0.009742774317686975, 0.0]
+**************************** 
+Step: 4
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.14073570561358853, 0.8446585665037771, 0.0, 0.0, 0.0, 0.0, 0.0, 0.005701122641710038, 0.00890460524092439, 0.0]
+**************************** 
+Step: 5
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 6
+Action: e, Observation: left, New state: 5, Reward: 1.0
+New Belief: [0.3333323333353333, 0.0, 0.0, 0.0, 0.0, 0.3333323333353333, 0.0, 0.33333533332933335, 0.0, 0.0, 0.0]
+**************************** 
+Step: 7
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.099999909999991, 0.799999279999928, 0.0, 0.0, 0.0, 0.0, 0.0, 0.10000081000008103, 0.0, 0.0]
+**************************** 
+Step: 8
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 9
+Action: e, Observation: neither, New state: 9, Reward: 1.0
+New Belief: [0.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0]
+**************************** 
+Step: 10
+Action: e, Observation: right, New state: 10, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+**************************** 
+Step: 11
+Action: w, Observation: bad, New state: 6, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 12
+Action: e, Observation: left, New state: 0, Reward: -1.0
+New Belief: [0.3333323333353333, 0.0, 0.0, 0.0, 0.0, 0.3333323333353333, 0.0, 0.33333533332933335, 0.0, 0.0, 0.0]
+**************************** 
+Step: 13
+Action: n, Observation: left, New state: 0, Reward: -0.04
+New Belief: [0.8181811487602089, 0.0, 0.0, 0.0, 0.0, 0.0909090165289121, 0.0, 0.09090983471087906, 0.0, 0.0, 0.0]
+**************************** 
+Step: 14
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 0.8780480095180501, 0.01219511124330625, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0975617679953376, 0.01219511124330625, 0.0]
+**************************** 
+Step: 15
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 0.1795509610014698, 0.7194507256795005, 0.0, 0.0, 0.0, 0.0, 0.0, 0.021197168002702965, 0.0798011453163266, 0.0]
+**************************** 
+Step: 16
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.12794302179769443, 0.7681023773896307, 0.0, 0.0, 0.0, 0.0, 0.0, 0.043536550968942475, 0.06041804984373245, 0.0]
+**************************** 
+Step: 17
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 18
+Action: e, Observation: left, New state: 7, Reward: 1.0
+New Belief: [0.3333323333353333, 0.0, 0.0, 0.0, 0.0, 0.3333323333353333, 0.0, 0.33333533332933335, 0.0, 0.0, 0.0]
+**************************** 
+Step: 19
+Action: n, Observation: both, New state: 4, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 20
+Action: n, Observation: left, New state: 0, Reward: -0.04
+New Belief: [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 21
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 22
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.2, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 23
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 24
+Action: e, Observation: both, New state: 4, Reward: 1.0
+New Belief: [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 25
+Action: n, Observation: left, New state: 0, Reward: -0.04
+New Belief: [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 26
+Action: e, Observation: both, New state: 4, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 27
+Action: n, Observation: left, New state: 0, Reward: -0.04
+New Belief: [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 28
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 29
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.2, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 30
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.14285714285714288, 0.8571428571428572, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 31
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 32
+Action: e, Observation: left, New state: 0, Reward: 1.0
+New Belief: [0.3333323333353333, 0.0, 0.0, 0.0, 0.0, 0.3333323333353333, 0.0, 0.33333533332933335, 0.0, 0.0, 0.0]
+**************************** 
+Step: 33
+Action: n, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 0.099999909999991, 0.799999279999928, 0.0, 0.0, 0.0, 0.0, 0.0, 0.10000081000008103, 0.0, 0.0]
+**************************** 
+Step: 34
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.07142834183724307, 0.5714267346979446, 0.0, 0.0, 0.0, 0.0, 0.0, 0.07142898469296248, 0.2857159387718499, 0.0]
+**************************** 
+Step: 35
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.17021255409692823, 0.6914885010187709, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1276605645085853, 0.010638380375715442, 0.0]
+**************************** 
+Step: 36
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 37
+Action: e, Observation: right, New state: 10, Reward: 1.0
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+**************************** 
+Step: 38
+Action: w, Observation: neither, New state: 9, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+**************************** 
+Step: 39
+Action: n, Observation: left, New state: 5, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 40
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 41
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 42
+Action: e, Observation: left, New state: 7, Reward: 1.0
+New Belief: [0.3333323333353333, 0.0, 0.0, 0.0, 0.0, 0.3333323333353333, 0.0, 0.33333533332933335, 0.0, 0.0, 0.0]
+**************************** 
+Step: 43
+Action: n, Observation: both, New state: 4, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 44
+Action: n, Observation: left, New state: 0, Reward: -0.04
+New Belief: [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 45
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 46
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.2, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 47
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.14285714285714288, 0.8571428571428572, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 48
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.125, 0.875, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 49
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 50
+Action: e, Observation: right, New state: 10, Reward: 1.0
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+**************************** 
+Step: 51
+Action: w, Observation: neither, New state: 9, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+**************************** 
+Step: 52
+Action: n, Observation: left, New state: 5, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 53
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 54
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 55
+Action: e, Observation: right, New state: 10, Reward: 1.0
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+**************************** 
+Step: 56
+Action: w, Observation: right, New state: 10, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+**************************** 
+Step: 57
+Action: w, Observation: neither, New state: 9, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+**************************** 
+Step: 58
+Action: n, Observation: left, New state: 5, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 59
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 60
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 61
+Action: e, Observation: left, New state: 0, Reward: 1.0
+New Belief: [0.3333323333353333, 0.0, 0.0, 0.0, 0.0, 0.3333323333353333, 0.0, 0.33333533332933335, 0.0, 0.0, 0.0]
+**************************** 
+Step: 62
+Action: n, Observation: left, New state: 0, Reward: -0.04
+New Belief: [0.8181811487602089, 0.0, 0.0, 0.0, 0.0, 0.0909090165289121, 0.0, 0.09090983471087906, 0.0, 0.0, 0.0]
+**************************** 
+Step: 63
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 0.8780480095180501, 0.01219511124330625, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0975617679953376, 0.01219511124330625, 0.0]
+**************************** 
+Step: 64
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.1795509610014698, 0.7194507256795005, 0.0, 0.0, 0.0, 0.0, 0.0, 0.021197168002702965, 0.0798011453163266, 0.0]
+**************************** 
+Step: 65
+Action: e, Observation: left, New state: 5, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 66
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 67
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 68
+Action: e, Observation: left, New state: 5, Reward: 1.0
+New Belief: [0.3333323333353333, 0.0, 0.0, 0.0, 0.0, 0.3333323333353333, 0.0, 0.33333533332933335, 0.0, 0.0, 0.0]
+**************************** 
+Step: 69
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.099999909999991, 0.799999279999928, 0.0, 0.0, 0.0, 0.0, 0.0, 0.10000081000008103, 0.0, 0.0]
+**************************** 
+Step: 70
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 71
+Action: e, Observation: neither, New state: 8, Reward: 1.0
+New Belief: [0.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0]
+**************************** 
+Step: 72
+Action: e, Observation: neither, New state: 8, Reward: -0.04
+New Belief: [0.0, 0.09090909090909091, 0.40909090909090906, 0.0, 0.0, 0.0, 0.0, 0.0, 0.13636363636363638, 0.36363636363636365, 0.0]
+**************************** 
+Step: 73
+Action: n, Observation: neither, New state: 8, Reward: -0.04
+New Belief: [0.0, 0.1865671641791045, 0.5522388059701492, 0.0, 0.0, 0.0, 0.0, 0.0, 0.23880597014925375, 0.02238805970149254, 0.0]
+**************************** 
+Step: 74
+Action: e, Observation: neither, New state: 9, Reward: -0.04
+New Belief: [0.0, 0.07727975270479134, 0.4234930448222566, 0.0, 0.0, 0.0, 0.0, 0.0, 0.10355486862442041, 0.39567233384853173, 0.0]
+**************************** 
+Step: 75
+Action: n, Observation: left, New state: 5, Reward: -0.04
+New Belief: [0.023094688221709004, 0.0, 0.0, 0.0, 0.0, 0.9459584295612009, 0.0, 0.03094688221709007, 0.0, 0.0, 0.0]
+**************************** 
+Step: 76
+Action: n, Observation: bad, New state: 6, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 77
+Action: e, Observation: right, New state: 10, Reward: -1.0
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+**************************** 
+Step: 78
+Action: w, Observation: bad, New state: 6, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 79
+Action: e, Observation: neither, New state: 1, Reward: -1.0
+New Belief: [0.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0]
+**************************** 
+Step: 80
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.09090909090909091, 0.40909090909090906, 0.0, 0.0, 0.0, 0.0, 0.0, 0.13636363636363638, 0.36363636363636365, 0.0]
+**************************** 
+Step: 81
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.1865671641791045, 0.5522388059701492, 0.0, 0.0, 0.0, 0.0, 0.0, 0.23880597014925375, 0.02238805970149254, 0.0]
+**************************** 
+Step: 82
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 83
+Action: e, Observation: left, New state: 0, Reward: 1.0
+New Belief: [0.3333323333353333, 0.0, 0.0, 0.0, 0.0, 0.3333323333353333, 0.0, 0.33333533332933335, 0.0, 0.0, 0.0]
+**************************** 
+Step: 84
+Action: n, Observation: left, New state: 0, Reward: -0.04
+New Belief: [0.8181811487602089, 0.0, 0.0, 0.0, 0.0, 0.0909090165289121, 0.0, 0.09090983471087906, 0.0, 0.0, 0.0]
+**************************** 
+Step: 85
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 0.8780480095180501, 0.01219511124330625, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0975617679953376, 0.01219511124330625, 0.0]
+**************************** 
+Step: 86
+Action: e, Observation: neither, New state: 1, Reward: -0.04
+New Belief: [0.0, 0.1795509610014698, 0.7194507256795005, 0.0, 0.0, 0.0, 0.0, 0.0, 0.021197168002702965, 0.0798011453163266, 0.0]
+**************************** 
+Step: 87
+Action: e, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.12794302179769443, 0.7681023773896307, 0.0, 0.0, 0.0, 0.0, 0.0, 0.043536550968942475, 0.06041804984373245, 0.0]
+**************************** 
+Step: 88
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 89
+Action: e, Observation: neither, New state: 9, Reward: 1.0
+New Belief: [0.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0]
+**************************** 
+Step: 90
+Action: e, Observation: right, New state: 10, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+**************************** 
+Step: 91
+Action: w, Observation: neither, New state: 9, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+**************************** 
+Step: 92
+Action: n, Observation: left, New state: 5, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 93
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 94
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 95
+Action: e, Observation: left, New state: 5, Reward: 1.0
+New Belief: [0.3333323333353333, 0.0, 0.0, 0.0, 0.0, 0.3333323333353333, 0.0, 0.33333533332933335, 0.0, 0.0, 0.0]
+**************************** 
+Step: 96
+Action: n, Observation: neither, New state: 2, Reward: -0.04
+New Belief: [0.0, 0.099999909999991, 0.799999279999928, 0.0, 0.0, 0.0, 0.0, 0.0, 0.10000081000008103, 0.0, 0.0]
+**************************** 
+Step: 97
+Action: e, Observation: good, New state: 3, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+**************************** 
+Step: 98
+Action: e, Observation: neither, New state: 9, Reward: 1.0
+New Belief: [0.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0]
+**************************** 
+Step: 99
+Action: e, Observation: right, New state: 10, Reward: -0.04
+New Belief: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+**************************** 
