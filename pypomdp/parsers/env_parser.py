@@ -57,6 +57,11 @@ class PomdpParser:
                 # print("getattr(self, '_PomdpParser__get_' + attr[0])(i):", getattr(self, '_PomdpParser__get_' + attr[0])(i))
                 i = getattr(self, '_PomdpParser__get_' + attr[0])(i)
             # print("**** self.states:   ", self.states)
+
+            f = open("Transition.txt", "a+")
+            f.write(str(self.T) + "\n")
+            f.close()
+
         return self
 
     def __exit__(self, ctx_type, ctx_value, ctx_traceback):
@@ -149,8 +154,13 @@ class PomdpParser:
             next_line = self.contents[i+1]
             probs = next_line.split()
             assert len(probs) == len(self.states)
-            for j, prob in enumerate(probs):
-                self.T[(action, start_state, j)] = float(prob)
+            if action == "*":
+                for act in self.actions:
+                    for j, prob in enumerate(probs):
+                        self.T[(act, start_state, str(j))] = float(prob)
+            else:
+                for j, prob in enumerate(probs):
+                    self.T[(action, start_state, str(j))] = float(prob)
             return i + 2
         elif len(pieces) == 1:
             next_line = self.contents[i+1]
@@ -220,7 +230,6 @@ class PomdpParser:
             # print("$$$$ action.type:  ", type(action))
             # print(" $$$$ action: ", action)
             if action == "*":
-                counter = i
                 for act in self.actions:
                     # print("$$$$ act: ", act)
                     for j, obs in enumerate(self.observations):
@@ -231,11 +240,10 @@ class PomdpParser:
                     # f = open("checkKKKingZZZZZZ.txt", "w+")
                     # f.write(str(self.Z)+"\n")
                     # f.close()
-                return counter + 2
             else:
                 for j, obs in enumerate(self.observations):
                     self.Z[(action, next_state, obs)] = float(probs[j])
-                return i + 2
+            return i + 2
         elif len(pieces) == 1:
             next_line = self.contents[i+1]
             if next_line == "identity":

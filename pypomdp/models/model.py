@@ -26,6 +26,8 @@ class Model(object):
             self.__dict__[k] = v
 
         self.curr_state = self.init_state or np.random.choice(self.states)
+        print(" $$$$$$  self.init_state:  ", self.init_state)
+        print(" $$$$$$  self.curr_state:  ", self.curr_state)
 
     @property
     def num_states(self):
@@ -76,6 +78,10 @@ class Model(object):
         # f = open("checkKKKingTrans.txt", "w+")
         # f.write(str(self.T)+"\n")
         # f.close()
+        # print(" (action, si, sj) ", str((action, si, sj)))
+        # print("  self.T.get((action, si, sj):   ", self.T.get((action, si, sj)))
+        # print("action type: ", type(action))
+        # print(type(si))
         return self.T.get((action, si, sj), 0.0)
 
     def reward_function(self, action='*', si='*', sj='*', obs='*'):
@@ -96,6 +102,7 @@ class Model(object):
         """
         # get new state
         s_probs = [self.transition_function(ai, si, sj) for sj in self.states]
+        print(" @@@@@@ (ai, si):  ", ai, si)
         state = self.states[draw_arg(s_probs)]
 
         # get new observation

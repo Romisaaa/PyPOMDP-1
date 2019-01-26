@@ -4,6 +4,7 @@ from models import RockSampleModel, Model
 from solvers import POMCP, PBVI
 from parsers import PomdpParser, GraphViz
 from logger import Logger as log
+import numpy as np
 
 
 class PomdpRunner:
@@ -22,6 +23,7 @@ class PomdpRunner:
         MODELS = {
             'RockSample': RockSampleModel,
         }
+        print(" ****** env_configs['model_name']: ", env_configs['model_name'])
         return MODELS.get(env_configs['model_name'], Model)(env_configs)
 
     def create_solver(self, algo, model):
@@ -68,6 +70,12 @@ class PomdpRunner:
             elif algo == 'pomcp':
                 pomdp.add_configs(budget, belief, **kwargs)
 
+            # Added by Sara; Current state must be selected on the basis of initial belief
+            # At this moment me make it possible
+            model.curr_state = str(np.random.choice(list(range(len(belief))), p=belief))
+            print(" ***** New current state: ", model.curr_state)
+
+
         # have fun!
         log.info('''
         ++++++++++++++++++++++
@@ -83,23 +91,41 @@ class PomdpRunner:
             print("*****  play game:  ", i, "  *****")
             pomdp.solve(T)
 
-            str_step2 = str(i)
-            file_name = "alpha_vecs" + str_step2 + ".txt"
+            file_name = "alpha_vecs" + str(i) + ".txt"
             f = open(file_name, "w+")
             for alph_vector in pomdp.alpha_vecs:
-                for i in range(len(alph_vector.v)):
-                    f.write(str(alph_vector.v[i]) + "\t")
+                for j in range(len(alph_vector.v)):
+                    f.write(str(alph_vector.v[j]) + "\t")
                 f.write("\n")
             f.close()
 
-            str_step3 = str(i)
-            file_name2 = "actions" + str_step3 + ".txt"
+            file_name2 = "actions" + str(i) + ".txt"
             f = open(file_name2, "a+")
             for alph_vector in pomdp.alpha_vecs:
                 f.write(str(alph_vector.action) + "\n")
             f.close()
 
-            action = pomdp.get_action(belief)
+            # implementing epsilon greedy action selection with two epsilon e1 = 0.3, e2 = 0.1
+            random_num = np.random.randint(10)
+            if i < 30:
+                if random_num <= 4:
+                    action = pomdp.choose_random_act()
+                else:
+                    action = pomdp.get_greedy_action(belief)
+            elif i < 50:
+                if random_num <= 2:
+                    action = pomdp.choose_random_act()
+                else:
+                    action = pomdp.get_greedy_action(belief)
+            else:
+                if random_num == 0:
+                    action = pomdp.choose_random_act()
+                else:
+                    action = pomdp.get_greedy_action(belief)
+
+            print(" @@@@@ action: ", action)
+
+            # action = pomdp.get_action(belief)
             new_state, obs, reward, cost = pomdp.take_action(action)
 
             if params.snapshot and isinstance(pomdp, POMCP):

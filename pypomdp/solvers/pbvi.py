@@ -63,7 +63,7 @@ class PBVI(Solver):
         m = self.model
         for step in range(T):
 
-            print(" oooo  Step: ", step, "  oooo")
+            # print(" oooo  Step: ", step, "  oooo")
             # First compute a set of updated vectors for every action/observation pair
             # Action(a) => Observation(o) => UpdateOfAlphaVector (a, o)
             gamma_intermediate = {
@@ -123,16 +123,6 @@ class PBVI(Solver):
         self.solved = True
 
     def get_action(self, belief):
-        # We change the function to get epsilon greedy action
-        # for now we set epsilon=0.1
-        random_num = np.random.randint(10)
-        print(" ^^^^ random_num: ", random_num)
-        if random_num == 0:
-            m = self.model
-            random_action = np.random.randint(m.num_actions)
-            print("**** random_action: ", random_action)
-            return str(random_action)
-
         max_v = -np.inf
         best = None
         for av in self.alpha_vecs:
@@ -142,6 +132,42 @@ class PBVI(Solver):
                 best = av
 
         return best.action
+
+    def get_greedy_action(self, belief):
+
+        max_v = -np.inf
+        best = None
+        for av in self.alpha_vecs:
+            v = np.dot(av.v, belief)
+            if v > max_v:
+                max_v = v
+                best = av
+
+        equal_vecs = []
+        f = open("logEqualVecs.txt", "a+")
+        for av in self.alpha_vecs:
+            v = np.dot(av.v, belief)
+            if abs(v - max_v) < 0.00000001:  # which means (v == best)
+                equal_vecs.append(av)
+                f.write(" " + str(av.action) + "\t")
+                f.write("  "+ str(av.v))
+                f.write("\n")
+        if len(equal_vecs) != 0:
+            best = np.random.choice(equal_vecs)
+            print(" ******  random choice:   ", best.action)
+            print(" *****  ", len(equal_vecs))
+
+        f.close()
+
+
+        return best.action
+
+    def choose_random_act(self):
+        m = self.model
+        random_action = np.random.randint(low=1, high=m.num_actions)
+        # print("**** m.num_actions: ", m.num_actions)
+        print("**** random_action: ", random_action)
+        return str(random_action)
 
     def update_belief(self, belief, action, obs):
         m = self.model

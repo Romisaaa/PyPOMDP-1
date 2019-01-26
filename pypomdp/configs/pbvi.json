@@ -1,5 +1,5 @@
 {
 	"algo": "pbvi",
-	"T": 1,
+	"T": 5,
 	"stepsize": 0.01
 }
