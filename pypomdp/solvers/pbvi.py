@@ -30,6 +30,18 @@ class PBVI(Solver):
             for a in self.model.actions
         }
 
+        # temp = {}
+        # for
+        # self.gamma_reward = {
+        #     a: (np.array([self.model.reward_function(a, s) for s in self.model.states]))
+        #     for a in self.model.actions
+        # }
+
+        f = open("GammaReward7.txt", "w+")
+        # f.write("self.model.reward_function(0, 1): " + str(self.model.reward_function(action="0", sj="1")))
+        f.write(str(self.gamma_reward) + "\n")
+        f.close()
+
     def compute_gamma_action_obs(self, a, o):
         """
         Computes a set of vectors, one for each previous alpha
@@ -51,6 +63,11 @@ class PBVI(Solver):
                             alpha.v[j]
                 v[i] *= m.discount
             gamma_action_obs.append(v)
+
+            # f = open("gamma_action_obs2.txt", "a+")
+            # f.write(str(gamma_action_obs))
+            # f.close()
+
         return gamma_action_obs
 
     def solve(self, T):
@@ -63,7 +80,8 @@ class PBVI(Solver):
         m = self.model
         for step in range(T):
 
-            # print(" oooo  Step: ", step, "  oooo")
+            print(" oooo  Step: ", step, "  oooo")
+            # STEP 1
             # First compute a set of updated vectors for every action/observation pair
             # Action(a) => Observation(o) => UpdateOfAlphaVector (a, o)
             gamma_intermediate = {
@@ -73,6 +91,9 @@ class PBVI(Solver):
                 } for a in m.actions
             }
 
+
+
+            # STEP 2
             # Now compute the cross sum
             gamma_action_belief = {}
             for a in m.actions:
@@ -150,22 +171,22 @@ class PBVI(Solver):
             if abs(v - max_v) < 0.00000001:  # which means (v == best)
                 equal_vecs.append(av)
                 f.write(" " + str(av.action) + "\t")
-                f.write("  "+ str(av.v))
+                f.write("  " + str(av.v))
                 f.write("\n")
         if len(equal_vecs) != 0:
             best = np.random.choice(equal_vecs)
-            print(" ******  random choice:   ", best.action)
-            print(" *****  ", len(equal_vecs))
+            # print(" ******  random choice:   ", best.action)
+            # print(" *****  ", len(equal_vecs))
 
         f.close()
 
-
         return best.action
 
-    def choose_random_act(self):
+    def choose_random_act(self, actions):
         m = self.model
-        random_action = np.random.randint(low=1, high=m.num_actions)
+        random_action_index = np.random.randint(low=1, high=m.num_actions)
         # print("**** m.num_actions: ", m.num_actions)
+        random_action = actions[random_action_index]
         print("**** random_action: ", random_action)
         return str(random_action)
 

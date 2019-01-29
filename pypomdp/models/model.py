@@ -75,9 +75,9 @@ class Model(object):
 
     def transition_function(self, action, si, sj):
         # print("----- self.T type:  ", type(self.T), str((action, si, sj)))
-        # f = open("checkKKKingTrans.txt", "w+")
-        # f.write(str(self.T)+"\n")
-        # f.close()
+        f = open("checkKKKingTransi.txt", "w+")
+        f.write(str(self.T)+"\n")
+        f.close()
         # print(" (action, si, sj) ", str((action, si, sj)))
         # print("  self.T.get((action, si, sj):   ", self.T.get((action, si, sj)))
         # print("action type: ", type(action))
@@ -85,6 +85,11 @@ class Model(object):
         return self.T.get((action, si, sj), 0.0)
 
     def reward_function(self, action='*', si='*', sj='*', obs='*'):
+        # print(" &*&*&*   self.R:  ", self.R)
+        f = open("SelfR3.txt", "w+")
+        f.write("len is: "+str(len(self.R)))
+        f.write(str(self.R) + "\n")
+        f.close()
         return self.R.get((action, si, sj, obs), 0.0)
 
     def cost_function(self, action):
@@ -131,6 +136,8 @@ class Model(object):
         action: action to take
         return: next state, observation and reward
         """
+        # print(" @#$%^&* self.curr_state:  ", self.curr_state)
+        # print(" @#$%^&* action:  ", action)
         state, observation, reward, cost = self.simulate_action(self.curr_state, action)
         self.curr_state = state
         # print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")

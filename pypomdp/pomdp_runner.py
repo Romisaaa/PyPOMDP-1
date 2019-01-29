@@ -23,7 +23,7 @@ class PomdpRunner:
         MODELS = {
             'RockSample': RockSampleModel,
         }
-        print(" ****** env_configs['model_name']: ", env_configs['model_name'])
+        # print(" ****** env_configs['model_name']: ", env_configs['model_name'])
         return MODELS.get(env_configs['model_name'], Model)(env_configs)
 
     def create_solver(self, algo, model):
@@ -33,10 +33,15 @@ class PomdpRunner:
         :param model: model instance, e.g, TigerModel or RockSampleModel
         :return: concrete solver
         """
+        print(" ***** algo:  ", algo)
+        print(" ***** model: ", model)
+
         SOLVERS = {
             'pbvi': PBVI,
             'pomcp': POMCP,
         }
+        # print(" **** SOLVERS.get(algo): ", SOLVERS.get(algo))
+        # print(" **** SOLVERS.get(algo)(model) : ", SOLVERS.get(algo)(model))
         return SOLVERS.get(algo)(model)
 
     def snapshot_tree(self, visualiser, tree, filename):
@@ -55,24 +60,31 @@ class PomdpRunner:
             pomdp = self.create_solver(algo, model)
 
             # supply additional algo params
-            # belief = ctx.random_beliefs() if params.random_prior else ctx.generate_beliefs()
+            belief = ctx.random_beliefs() if params.random_prior else ctx.generate_beliefs()
+
             # Just for Russel 4x3 problem we changed the belief since all sates are not equiprobable
-            # the agent should not be in terminal states 3 and 6
+            #  the agent should not be in terminal states 3 and 6
             # belief = [0.111111, 0.111111, 0.111111, 0.0, 0.111111, 0.111111, 0.0, 0.111112, 0.111111, 0.111111,
             #           0.111111]
-            belief = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0,
-                      0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+            # belief for tiger-grid
+            # belief = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+            #           0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0,
+            #           0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
             if algo == 'pbvi':
-                belief_points = ctx.generate_belief_points(kwargs['stepsize'])
+                print("num_states: ", model.num_states)
+                num_belief_points = 5
+                belief_points = ctx.random_generate_belief_points(num_belief_points, model.num_states)
+                # belief_points = ctx.generate_belief_points(kwargs['stepsize'])
                 pomdp.add_configs(belief_points)
             elif algo == 'pomcp':
                 pomdp.add_configs(budget, belief, **kwargs)
 
             # Added by Sara; Current state must be selected on the basis of initial belief
             # At this moment me make it possible
-            model.curr_state = str(np.random.choice(list(range(len(belief))), p=belief))
+            index = np.random.choice(list(range(len(belief))), p=belief)
+            model.curr_state = ctx.states[index]
             print(" ***** New current state: ", model.curr_state)
 
 
@@ -107,21 +119,21 @@ class PomdpRunner:
 
             # implementing epsilon greedy action selection with two epsilon e1 = 0.3, e2 = 0.1
             random_num = np.random.randint(10)
-            if i < 30:
-                if random_num <= 4:
-                    action = pomdp.choose_random_act()
-                else:
-                    action = pomdp.get_greedy_action(belief)
-            elif i < 50:
-                if random_num <= 2:
-                    action = pomdp.choose_random_act()
-                else:
-                    action = pomdp.get_greedy_action(belief)
+            # if i < 30:
+            #     if random_num <= 4:
+            #         action = pomdp.choose_random_act(ctx.actions)
+            #     else:
+            #         action = pomdp.get_greedy_action(belief)
+            # elif i < 50:
+            #     if random_num <= 2:
+            #         action = pomdp.choose_random_act(ctx.actions)
+            #     else:
+            #         action = pomdp.get_greedy_action(belief)
+            # else:
+            if random_num == 0:
+                action = pomdp.choose_random_act(ctx.actions)
             else:
-                if random_num == 0:
-                    action = pomdp.choose_random_act()
-                else:
-                    action = pomdp.get_greedy_action(belief)
+                action = pomdp.get_greedy_action(belief)
 
             print(" @@@@@ action: ", action)
 

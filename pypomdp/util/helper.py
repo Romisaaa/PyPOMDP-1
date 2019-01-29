@@ -38,8 +38,8 @@ def gen_distribution(n):
 
 
 def draw_arg(probs):
-    print("##########  probs: ", probs)
-    print("##########  sum(probs): ", sum(probs))
+    # print("##########  probs: ", probs)
+    # print("##########  sum(probs): ", sum(probs))
     assert(abs(sum(probs) - 1.0) < 0.00000001)
     probs = np.array(probs)
     # Do a second normalisation to avoid the problem described here: https://stackoverflow.com/questions/46539431/np-random-choice-probabilities-do-not-sum-to-1

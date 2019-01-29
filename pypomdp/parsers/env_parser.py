@@ -56,11 +56,14 @@ class PomdpParser:
                 # print("getattr(self, '_PomdpParser__get_' + attr[0]): ", getattr(self, '_PomdpParser__get_' + attr[0]))
                 # print("getattr(self, '_PomdpParser__get_' + attr[0])(i):", getattr(self, '_PomdpParser__get_' + attr[0])(i))
                 i = getattr(self, '_PomdpParser__get_' + attr[0])(i)
-            # print("**** self.states:   ", self.states)
-
-            f = open("Transition.txt", "a+")
-            f.write(str(self.T) + "\n")
-            f.close()
+            # print("\n \n**** self.states:   ", self.states, "\n\n")
+            # f = open("Reward.txt", "w+")
+            # f.write(" len: " + str(len(self.R)) + "\n")
+            # f.write(str(self.R) + "\n")
+            # f.close()
+            # f = open("Transition2.txt", "a+")
+            # f.write(str(self.T) + "\n")
+            # f.close()
 
         return self
 
@@ -94,11 +97,16 @@ class PomdpParser:
 
     def __parse_line__(self, i, attr):
         parts = self.contents[i].split()
-
+        # print(" \n ****** parts: ", parts, " *****")
+        # print(" ****** attr: ", attr, " *****")
         if len(parts) == 2:
             n = int(parts[1])
+            # print(" ****** In IF ")
+            # print(" list(map(str, list(range(n)))): ", list(map(str, list(range(n)))))
             setattr(self, attr, list(map(str, list(range(n)))))
         else:
+            # print(" ****** In ELSE ")
+            # print("  parts[1:]: ", parts[1:])
             setattr(self, attr, parts[1:])
         return i + 1
 
@@ -156,11 +164,21 @@ class PomdpParser:
             assert len(probs) == len(self.states)
             if action == "*":
                 for act in self.actions:
+                    if start_state == "*":
+                        for start_st in self.states:
+                            for j, prob in enumerate(probs):
+                                self.T[(act, start_st, str(j))] = float(prob)
+                    else:
+                        for j, prob in enumerate(probs):
+                            self.T[(act, start_state, str(j))] = float(prob)
+            else:  # action != "*"
+                if start_state == "*":
+                    for start_st in self.states:
+                        for j, prob in enumerate(probs):
+                            self.T[(action, start_st, str(j))] = float(prob)
+                else:
                     for j, prob in enumerate(probs):
-                        self.T[(act, start_state, str(j))] = float(prob)
-            else:
-                for j, prob in enumerate(probs):
-                    self.T[(action, start_state, str(j))] = float(prob)
+                        self.T[(action, start_state, str(j))] = float(prob)
             return i + 2
         elif len(pieces) == 1:
             next_line = self.contents[i+1]
@@ -232,32 +250,46 @@ class PomdpParser:
             if action == "*":
                 for act in self.actions:
                     # print("$$$$ act: ", act)
-                    for j, obs in enumerate(self.observations):
-                        self.Z[(act, next_state, obs)] = float(probs[j])
-                    # counter = counter + 2
-                    # print("**** len self.Z: ", len(self.Z))
-                    # print("*** type self.Z: ", type(self.Z))
-                    # f = open("checkKKKingZZZZZZ.txt", "w+")
-                    # f.write(str(self.Z)+"\n")
-                    # f.close()
+                    if next_state == "*":
+                        for nxt_st in self.states:
+                            for j, obs in enumerate(self.observations):
+                                self.Z[(act, nxt_st, obs)] = float(probs[j])
+                    else:
+                        for j, obs in enumerate(self.observations):
+                            self.Z[(act, next_state, obs)] = float(probs[j])
             else:
-                for j, obs in enumerate(self.observations):
-                    self.Z[(action, next_state, obs)] = float(probs[j])
+                if next_state == "*":
+                    for nxt_st in self.states:
+                        for j, obs in enumerate(self.observations):
+                            self.Z[(action, nxt_st, obs)] = float(probs[j])
+                else:
+                    for j, obs in enumerate(self.observations):
+                        self.Z[(action, next_state, obs)] = float(probs[j])
             return i + 2
         elif len(pieces) == 1:
             next_line = self.contents[i+1]
             if next_line == "identity":
                 # case 4: O: <action>
                 # identity
-                for comb in itertools.product([action], self.states, self.observations):
-                    self.Z[comb] = 1.0 if comb[1] == comb[2] else 0.0
+                if action == "*":
+                    for act in self.actions:
+                        for comb in itertools.product([act], self.states, self.observations):
+                            self.Z[comb] = 1.0 if comb[1] == comb[2] else 0.0
+                else:
+                    for comb in itertools.product([action], self.states, self.observations):
+                        self.Z[comb] = 1.0 if comb[1] == comb[2] else 0.0
                 return i + 2
             elif next_line == "uniform":
                 # case 5: O: <action>
                 # uniform
                 prob = 1.0 / float(len(self.observations))
-                for comb in itertools.product([action], self.states, self.observations):
-                    self.Z[comb] = prob
+                if action == "*":
+                    for act in self.actions:
+                        for comb in itertools.product([act], self.states, self.observations):
+                            self.Z[comb] = prob
+                else:
+                    for comb in itertools.product([action], self.states, self.observations):
+                        self.Z[comb] = prob
                 return i + 2
             else:
                 # case 6: O: <action>
@@ -265,12 +297,21 @@ class PomdpParser:
                 # %f %f ... %f
                 # ...
                 # %f %f ... %f
-                for j, sj in enumerate(self.states):
-                    probs = next_line.split()
-                    assert len(probs) == len(self.observations)
-                    for k, oj in enumerate(self.observations):
-                        self.Z[(action, sj, oj)] = prob = float(probs[k])
-                    next_line = self.contents[i + 2 + j]
+                if action == "*":
+                    for j, sj in enumerate(self.states):
+                        probs = next_line.split()
+                        assert len(probs) == len(self.observations)
+                        for k, oj in enumerate(self.observations):
+                            for act in self.actions:
+                                self.Z[(act, sj, oj)] = prob = float(probs[k])
+                            next_line = self.contents[i + 2 + j]
+                else:
+                    for j, sj in enumerate(self.states):
+                        probs = next_line.split()
+                        assert len(probs) == len(self.observations)
+                        for k, oj in enumerate(self.observations):
+                            self.Z[(action, sj, oj)] = prob = float(probs[k])
+                        next_line = self.contents[i + 2 + j]
                 return i + 1 + len(self.states)
         else:
             raise Exception("Cannot parse line: " + line)
@@ -287,6 +328,8 @@ class PomdpParser:
         #     pieces = map(float, pieces)
         # except Exception:
         #     pass
+        # print("***** pieces:  ", pieces)
+        # print("***** len pieces:  ", len(pieces))
         action = pieces[0]
 
         if len(pieces) == 5 or len(pieces) == 4:
@@ -299,11 +342,74 @@ class PomdpParser:
             # obs_raw = pieces[3]
             start_state, next_state, obs = pieces[1], pieces[2], pieces[3]
             prob = float(pieces[4]) if len(pieces) == 5 else float(self.contents[i+1])
+            # print("***  prob: ", prob)
 
             # self.__reward_ss(
             #     action, start_state_raw, next_state_raw, obs_raw, prob)
 
-            self.R[(action, start_state, next_state, obs)] = prob
+            # Added by Sara as a temporary solution:
+            if action == "*":
+                for act in self.actions:
+                    if start_state == "*":
+                        for start_st in self.states:
+                            if next_state == "*":
+                                for nxt_state in self.states:
+                                    if obs == "*":
+                                        for ob in self.observations:
+                                            self.R[(act, start_st, nxt_state, ob)] = prob
+                                    else:  # (obs != "*")
+                                        self.R[(act, start_st, nxt_state, obs)] = prob
+                            else:  # (next_state != "*":)
+                                if obs == "*":
+                                    for ob in self.observations:
+                                        self.R[(act, start_st, next_state, ob)] = prob
+                                else:  # (obs != "*")
+                                    self.R[(act, start_st, next_state, obs)] = prob
+                    else:  # (start_state != "*")
+                        if next_state == "*":
+                            for nxt_state in self.states:
+                                if obs == "*":
+                                    for ob in self.observations:
+                                        self.R[(act, start_state, nxt_state, ob)] = prob
+                                else:  # (obs != "*")
+                                    self.R[(act, start_state, nxt_state, obs)] = prob
+                        else:  # (next_state != "*":)
+                            if obs == "*":
+                                for ob in self.observations:
+                                    self.R[(act, start_state, next_state, ob)] = prob
+                            else:  # (obs != "*")
+                                self.R[(act, start_state, next_state, obs)] = prob
+            else:   # (action != "*")
+                if start_state == "*":
+                    for start_st in self.states:
+                        if next_state == "*":
+                            for nxt_state in self.states:
+                                if obs == "*":
+                                    for ob in self.observations:
+                                        self.R[(action, start_st, nxt_state, ob)] = prob
+                                else:  # (obs != "*")
+                                    self.R[(action, start_st, nxt_state, obs)] = prob
+                        else:  # (next_state != "*":)
+                            if obs == "*":
+                                for ob in self.observations:
+                                    self.R[(action, start_st, next_state, ob)] = prob
+                            else:  # (obs != "*")
+                                self.R[(action, start_st, next_state, obs)] = prob
+                else:  # (start_state != "*")
+                    if next_state == "*":
+                        for nxt_state in self.states:
+                            if obs == "*":
+                                for ob in self.observations:
+                                    self.R[(action, start_state, nxt_state, ob)] = prob
+                            else:  # (obs != "*")
+                                self.R[(action, start_state, nxt_state, obs)] = prob
+                    else:  # (next_state != "*":)
+                        if obs == "*":
+                            for ob in self.observations:
+                                self.R[(action, start_state, next_state, ob)] = prob
+                        else:  # (obs != "*")
+                            self.R[(action, start_state, next_state, obs)] = prob
+
             return i + 1 if len(pieces) == 5 else i + 2
         elif len(pieces) == 3:
             # case 2: R: <action> : <start-state> : <next-state>
@@ -403,9 +509,48 @@ class PomdpParser:
 
     def generate_belief_points(self, stepsize):
         # must be many better ways to do it
+        print("  ******  stepsize: ", stepsize)
         beliefs = [[random.uniform() for s in self.states] for p in arange(0., 1. + stepsize, stepsize)]
         # print(" ***** beleifs are:", beliefs)
-        # print(" \n ***** beleifs type:", type(beliefs))
-        # print(" \n***** lrngth beleifs:", len(beliefs))
+        # print("  ***** beleifs type:", type(beliefs))
+        # print(" ***** lrngth beleifs:", len(beliefs))
+        # print(" sum: ", sum(beliefs[0]))
+        # print(" sum: ", sum(beliefs[1]))
+        # print(" sum: ", sum(beliefs[2]))
+        # writing total rewards in a file
+        # f = open("initBeleifs3.txt", "a+")
+        # for element in beliefs:
+        #     f.write(str(element))
+        #     f.write("\n ******* \n")
+        # f.close()
 
         return array(beliefs)
+
+    def random_generate_belief_points(self, num_belief_points, num_states):
+        belief_points = []
+        for i in range(num_belief_points):
+            b_temp = []
+            for j in range(num_states):
+                b_temp.append(random.uniform(low=0.0, high=1.0))
+            b_temp.sort()
+            # print(" ****  IN random; b_temp: ", str(b_temp))
+            # print(" len b_temp", len(b_temp))
+            b_new = []
+            for k in range(0, len(b_temp)-1):
+                b_new.append(b_temp[k+1]-b_temp[k])
+            b_new.append(1.0 - sum(b_new))
+            # print(" ****  IN random; b_new: ", str(b_new))
+            # print(" len b_new", len(b_new))
+            # print("*** sum :", sum(b_new))
+            belief_points.append(b_new)
+            f = open("initBeleifs4.txt", "a+")
+            for element in belief_points:
+                f.write(str(element))
+                f.write("\n ******* \n")
+            f.close()
+
+        return belief_points
+
+
+
+
