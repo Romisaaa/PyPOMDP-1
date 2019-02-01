@@ -26,6 +26,7 @@ class PomdpParser:
         self.model_spec = None
 
         self.T, self.Z, self.R = {}, {}, {}
+        self.immediateReward = {}  # conditioned on s ,a
         self.discount, self.start, self.init_state = None, None, None
         self.states, self.actions, self.observations, self.costs = None, None, None, None
 
@@ -52,9 +53,6 @@ class PomdpParser:
 
                 if not attr:
                     raise Exception("Unrecognized line: " + line)
-                # print('_PomdpParser__get_' + attr[0])
-                # print("getattr(self, '_PomdpParser__get_' + attr[0]): ", getattr(self, '_PomdpParser__get_' + attr[0]))
-                # print("getattr(self, '_PomdpParser__get_' + attr[0])(i):", getattr(self, '_PomdpParser__get_' + attr[0])(i))
                 i = getattr(self, '_PomdpParser__get_' + attr[0])(i)
             # print("\n \n**** self.states:   ", self.states, "\n\n")
             # f = open("Reward.txt", "w+")
@@ -64,6 +62,10 @@ class PomdpParser:
             # f = open("Transition2.txt", "a+")
             # f.write(str(self.T) + "\n")
             # f.close()
+
+        # computing immediate reward condition on s and a: r(s,a)
+        # for start_st in
+        print("\n ****** self.states:   ", self.states, " *****\n")
 
         return self
 

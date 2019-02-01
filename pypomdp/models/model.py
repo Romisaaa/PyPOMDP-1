@@ -54,43 +54,35 @@ class Model(object):
         return self.actions
 
     def observation_function(self, action, state, obs):
-        # print("@#$@#$   In observation function: ")
-        # print("action, state, obs:  ", action, state, obs)
-        # f = open("check.txt", "a+")
-        # f.write(str(state) + "\t" + str(action) + "\t" + str(obs)+"\n")
-        # f.write("********************* \n")
-        # f.close()
-        # print("********** self.Z :  ", self.Z)
-        # print("********** length self.Z :  ", len(self.Z))
-        # f = open("checkKKKing.txt", "w+")
-        # f.write(str(obs)+"\n")
-        # f.close()
-        # print("(action, state, obs): ", str((action, state, obs)))
-        # print("  self.Z.get((*, state, obs):  ", self.Z.get(('*', state, obs)))
-        # print("  self.Z.get((action, state, obs):  ", self.Z.get((action, state, obs)))
-        if self.Z.get(('*', state, obs)) is not None:
-            return self.Z.get(('*', state, obs))
-        else:
-            return self.Z.get((action, state, obs), 0.0)  # 0.0
+        return self.Z.get((action, state, obs), 0.0)  # 0.0
 
     def transition_function(self, action, si, sj):
         # print("----- self.T type:  ", type(self.T), str((action, si, sj)))
-        f = open("checkKKKingTransi.txt", "w+")
-        f.write(str(self.T)+"\n")
-        f.close()
-        # print(" (action, si, sj) ", str((action, si, sj)))
-        # print("  self.T.get((action, si, sj):   ", self.T.get((action, si, sj)))
-        # print("action type: ", type(action))
-        # print(type(si))
+        # f = open("checkKKKingTransi.txt", "w+")
+        # f.write(str(self.T)+"\n")
+        # f.close()
         return self.T.get((action, si, sj), 0.0)
 
     def reward_function(self, action='*', si='*', sj='*', obs='*'):
         # print(" &*&*&*   self.R:  ", self.R)
-        f = open("SelfR3.txt", "w+")
-        f.write("len is: "+str(len(self.R)))
-        f.write(str(self.R) + "\n")
-        f.close()
+        # f = open("SelfR3.txt", "w+")
+        # f.write("len is: "+str(len(self.R)))
+        # f.write(str(self.R) + "\n")
+        # f.close()
         return self.R.get((action, si, sj, obs), 0.0)
+
+    def immediate_reward_function(self, action, si, m):
+        # print(" &*&*&*   self.R:  ", self.R)
+        # f = open("SelfR3.txt", "w+")
+        # f.write("len is: "+str(len(self.R)))
+        # f.write(str(self.R) + "\n")
+        # f.close()
+        r = 0
+        for next_state in m.states:
+            for observation in m.observations:
+                r += self.T.get((action, si, next_state), 0.0) * self.Z.get((action, next_state, observation), 0.0) * \
+                     self.reward_function(action, si, next_state, observation)
+        return r
 
     def cost_function(self, action):
         if not self.costs:
@@ -123,8 +115,9 @@ class Model(object):
             print('obs probs: {}'.format(o_probs))
 
         # get new reward
-        # reward = self.reward_function(ai, si, sj, observation) #  --- THIS IS MORE GENERAL!
-        reward = self.reward_function(ai, si)   # --- THIS IS TMP SOLUTION!
+        reward = self.reward_function(ai, si, state, observation) #  --- THIS IS MORE GENERAL!
+        # reward = self.immediate_reward_function(ai, si)   # --- THIS IS TMP SOLUTION!
+        print(" ###### reward: ", reward)
         cost = self.cost_function(ai)
 
         return state, observation, reward, cost

@@ -74,8 +74,9 @@ class PomdpRunner:
 
             if algo == 'pbvi':
                 print("num_states: ", model.num_states)
-                num_belief_points = 5
-                belief_points = ctx.random_generate_belief_points(num_belief_points, model.num_states)
+                # num_belief_points = 5
+                belief_points = [belief]
+                # belief_points = ctx.random_generate_belief_points(num_belief_points, model.num_states)
                 # belief_points = ctx.generate_belief_points(kwargs['stepsize'])
                 pomdp.add_configs(belief_points)
             elif algo == 'pomcp':
@@ -112,29 +113,17 @@ class PomdpRunner:
             f.close()
 
             file_name2 = "actions" + str(i) + ".txt"
-            f = open(file_name2, "a+")
+            f = open(file_name2, "w+")
             for alph_vector in pomdp.alpha_vecs:
                 f.write(str(alph_vector.action) + "\n")
             f.close()
 
             # implementing epsilon greedy action selection with two epsilon e1 = 0.3, e2 = 0.1
             random_num = np.random.randint(10)
-            # if i < 30:
-            #     if random_num <= 4:
-            #         action = pomdp.choose_random_act(ctx.actions)
-            #     else:
-            #         action = pomdp.get_greedy_action(belief)
-            # elif i < 50:
-            #     if random_num <= 2:
-            #         action = pomdp.choose_random_act(ctx.actions)
-            #     else:
-            #         action = pomdp.get_greedy_action(belief)
-            # else:
             if random_num == 0:
                 action = pomdp.choose_random_act(ctx.actions)
             else:
                 action = pomdp.get_greedy_action(belief)
-
             print(" @@@@@ action: ", action)
 
             # action = pomdp.get_action(belief)
@@ -154,10 +143,10 @@ class PomdpRunner:
             f.write(str(reward) + "\n")
             f.close()
 
-            # writing total rewards in a file
-            f = open("totalRewards.txt", "a+")
-            f.write(str(total_rewards) + "\n")
-            f.close()
+            # # writing total rewards in a file
+            # f = open("totalRewards.txt", "a+")
+            # f.write(str(total_rewards) + "\n")
+            # f.close()
 
             # print ino
             log.info('\n'.join([
