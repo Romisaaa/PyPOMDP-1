@@ -64,8 +64,9 @@ class PomdpRunner:
 
             # Just for Russel 4x3 problem we changed the belief since all sates are not equiprobable
             #  the agent should not be in terminal states 3 and 6
-            # belief = [0.111111, 0.111111, 0.111111, 0.0, 0.111111, 0.111111, 0.0, 0.111112, 0.111111, 0.111111,
-            #           0.111111]
+            # belief = [0.111111, 0.111111, 0.111111, 0.0, 0.111111, 0.111111, 0.0, 0.111112, 0.111111,
+            #           0.111111, 0.111111]
+            # belief = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0] # Start from left bottom
 
             # belief for tiger-grid
             # belief = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,

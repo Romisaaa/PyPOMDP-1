@@ -3,9 +3,11 @@ import numpy as np
 from solvers import Solver
 from util.alpha_vector import AlphaVector
 from array import array
+from util import draw_arg
 from numpy import *
 
 MIN = -np.inf
+EQUALITY_EPSILON = 0.00000001
 
 
 class PBVI(Solver):
@@ -78,10 +80,9 @@ class PBVI(Solver):
     def solve(self, T):
         # We want it always solve the problem to see the performance during time
         # if self.solved:
-        #     print("In if")
         #     return
 
-        # ****** BACKUP( B, Gamma)  for planning horizon T ******
+        # ******   BACKUP( B, Gamma)  for planning horizon T   ******
         m = self.model
         for step in range(T):
 
@@ -140,36 +141,28 @@ class PBVI(Solver):
                 elif not self.is_duplicate(best_aa, best_av):
                     self.alpha_vecs.append(AlphaVector(a=best_aa, v=best_av))
 
-            # str_step2 = str(step)
-            # file_name = "Alpha_vecstors" + str_step2 + ".txt"
-            # f = open(file_name, "w+")
-            # f.write(str(best_aa)+"\t")
-            # f.write(str(best_av))
-            # print(" @@@@@@@@@@@ len alpha vector", len(self.alpha_vecs))
-            # print(" ########## type: ", type(self.alpha_vecs))
-            # for alph_vector in self.alpha_vecs:
-            #     for i in range(len(alph_vector.v)):
-            #         f.write(str(alph_vector.v[i]) + "\t")
-            #     f.write("\n")
-            # f.close()
-
-            # str_step3 = str(step)
-            # file_name2 = "ActionsAlpha" + str_step3 + ".txt"
-            # f = open(file_name2, "a+")
-            # for alph_vector in self.alpha_vecs:
-            #     f.write(str(alph_vector.action) + "\n")
-            # f.close()
 
         # ****** EXPAND(B, Gamma) for planning horizon T ******
-        B_old = self.belief_points
-        num_belief_points = 10
-        B_new = self.random_generate_belief_points(num_belief_points, m.num_states)
+        B_old = []
+        for element in self.belief_points:
+            B_old.append(element)
+
+        # First Method for belief generation: Fully random
+        # B_new = self.random_generate_belief_points(m.num_states)
+
+        # Second Method for belief generation: Stochastic Simulation with Random Action (SSRA)
+        B_new = self.stochastic_simulation_random_action()
+
+        # Third Method for belief generation: Stochastic Simulation with Random Action (SSRA)
+        B_new = self.stochastic_simulation_greedy_action()
+
         self.belief_points = B_old + B_new
         # my_belief = self.remove_duplicate()
         print(" ^^^^^^^^^  size belie points: ", len(self.belief_points))
         f = open("BeliefPoints", "a+")
         for belief in self.belief_points:
             f.write(str(belief) + "\n")
+        f.write("\n")
         f.close()
 
         self.solved = True
@@ -204,21 +197,17 @@ class PBVI(Solver):
                 # f.write(" " + str(av.action) + "\t")
                 # f.write("  " + str(av.v))
                 # f.write("\n")
-        if len(equal_vecs) != 0:
+        if len(equal_vecs) > 1:
             best = np.random.choice(equal_vecs)
-            # print(" ******  random choice:   ", best.action)
-            # print(" *****  ", len(equal_vecs))
-        # f.write(" \n ******* \n")
-        # f.close()
 
         return best.action
 
     def choose_random_act(self, actions):
-        m = self.model
-        random_action_index = np.random.randint(low=1, high=m.num_actions)
+
+        random_action_index = np.random.randint(low=1, high=self.model.num_actions)
         # print("**** m.num_actions: ", m.num_actions)
         random_action = actions[random_action_index]
-        print("**** random_action: ", random_action)
+        print("**** random_action in SSGA: ", random_action)
         # print(" type action chosen: ", type(random_action))
         return random_action
 
@@ -239,10 +228,10 @@ class PBVI(Solver):
         total = sum(b_new)
         return [x / total for x in b_new]
 
-    def random_generate_belief_points(self, num_belief_points, num_states):
+    def random_generate_belief_points(self, num_states):
         belief_points = []
-
-        for i in range(num_belief_points):
+        num_new_random_belief_points = 10
+        for i in range(num_new_random_belief_points):
             b_temp = []
             for j in range(num_states):
                 b_temp.append(random.uniform(low=0.0, high=1.0))
@@ -259,26 +248,10 @@ class PBVI(Solver):
             if b_new not in belief_points:
                 belief_points.append(b_new)
 
-        # f = open("BeleifPoints1.txt", "a+")
-        # for element in belief_points:
-        #     f.write(str(element))
-        #     f.write("\n ")
-        # f.write("\n ******* \n")
-        # f.close()
-
         return belief_points
 
+    # Checking whether an alpha_vecyor object already belongs to Alpha vector list
     def is_duplicate(self, act, vec):
-        # f = open("duplication6.txt", "a+")
-        # f.write("  act: " + str(act) + " vec:" + str(vec) + "\n")
-        #
-        # for element in self.alpha_vecs:
-        #     f.write("alpha act: " + element.action)
-        #     for counter in range(len(element.v)):
-        #         f.write(str(element.v[counter]) + "\t")
-        #     f.write("\n ")
-        # f.write("\n ******* \n")
-        # f.close()
 
         for element in self.alpha_vecs:
             # print(" %%%%% vec: ", vec)
@@ -297,3 +270,64 @@ class PBVI(Solver):
                 if abs(vec1[i] - vec2[i]) > 0.00000001:
                     return False
             return True
+
+    # Stochastic Simulation with Random Action (SSRA)
+    def stochastic_simulation_random_action(self):
+        B = []
+        for belief in self.belief_points:
+            si = self.model.states[draw_arg(belief)]
+            action = self.model.actions[random.choice(range(self.model.num_actions))]
+            s_probs = [self.model.transition_function(action, si, next_state) for next_state in self.model.states]
+            sj = self.model.states[draw_arg(s_probs)]
+            o_probs = [self.model.observation_function(action, sj, oj) for oj in self.model.observations]
+            observation = self.model.observations[draw_arg(o_probs)]
+            new_belief = self.update_belief(belief, action, observation)
+            if not self.belongs_to(new_belief, self.belief_points):
+                B.append(new_belief)
+
+        f = open("SSRA3.txt", "a+")
+        for b in B:
+            f.write(str(b) + "\n")
+        f.write("\n")
+        f.close()
+
+        return B
+
+    # Stochastic Simulation with Greedy Action (SSGA)
+    def stochastic_simulation_greedy_action(self):
+        B = []
+        for belief in self.belief_points:
+            si = self.model.states[draw_arg(belief)]
+
+            # Implementing epsilon greedy policy with e = 0.1
+            random_num = np.random.randint(10)
+            if random_num == 0:
+                action = self.choose_random_act(self.model.actions)
+            else:
+                action = self.get_greedy_action(belief)
+            # action = self.model.actions[random.choice(range(self.model.num_actions))]
+
+            s_probs = [self.model.transition_function(action, si, next_state) for next_state in self.model.states]
+            sj = self.model.states[draw_arg(s_probs)]
+            o_probs = [self.model.observation_function(action, sj, oj) for oj in self.model.observations]
+            observation = self.model.observations[draw_arg(o_probs)]
+            new_belief = self.update_belief(belief, action, observation)
+            if not self.belongs_to(new_belief, self.belief_points):
+                B.append(new_belief)
+
+        f = open("SSGA.txt", "a+")
+        for b in B:
+            f.write(str(b) + "\n")
+        f.write("\n")
+        f.close()
+
+        return B
+
+    def belongs_to(self, b, belief_set):
+
+        for belief in belief_set:
+            if self.is_same_vector(belief, b):
+                return True
+
+        return False
+
