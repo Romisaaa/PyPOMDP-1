@@ -5,6 +5,7 @@ from solvers import POMCP, PBVI
 from parsers import PomdpParser, GraphViz
 from logger import Logger as log
 import numpy as np
+import time
 
 
 class PomdpRunner:
@@ -60,12 +61,12 @@ class PomdpRunner:
             pomdp = self.create_solver(algo, model)
 
             # supply additional algo params
-            belief = ctx.random_beliefs() if params.random_prior else ctx.generate_beliefs()
+            #belief = ctx.random_beliefs() if params.random_prior else ctx.generate_beliefs()
 
             # Just for Russel 4x3 problem we changed the belief since all sates are not equiprobable
             #  the agent should not be in terminal states 3 and 6
-            # belief = [0.111111, 0.111111, 0.111111, 0.0, 0.111111, 0.111111, 0.0, 0.111112, 0.111111,
-            #           0.111111, 0.111111]
+            belief = [0.111111, 0.111111, 0.111111, 0.0, 0.111111, 0.111111, 0.0, 0.111112, 0.111111,
+                      0.111111, 0.111111]
             # belief = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0] # Start from left bottom
 
             # belief for tiger-grid
@@ -100,31 +101,36 @@ class PomdpRunner:
             Max Play: {}
         ++++++++++++++++++++++'''.format(model.curr_state, budget, belief, T, params.max_play))
 
+        t_start = time.time()
         for i in range(params.max_play):
             # plan, take action and receive environment feedbacks
             print("*****  play game:  ", i, "  *****")
             pomdp.solve(T)
 
-            file_name = "alpha_vecs" + str(i) + ".txt"
-            f = open(file_name, "w+")
-            for alph_vector in pomdp.alpha_vecs:
-                for j in range(len(alph_vector.v)):
-                    f.write(str(alph_vector.v[j]) + "\t")
-                f.write("\n")
-            f.close()
+            if i % 30 == 0:
+                f = open("alpha_vecs" + str(i) + ".txt", "w+")
+                for alph_vector in pomdp.alpha_vecs:
+                    for j in range(len(alph_vector.v)):
+                        f.write(str(alph_vector.v[j]) + "\t")
+                    f.write("\n")
+                f.close()
 
-            file_name2 = "actions" + str(i) + ".txt"
-            f = open(file_name2, "w+")
-            for alph_vector in pomdp.alpha_vecs:
-                f.write(str(alph_vector.action) + "\n")
-            f.close()
+                f = open("actions" + str(i) + ".txt", "w+")
+                for alph_vector in pomdp.alpha_vecs:
+                    f.write(str(alph_vector.action) + "\n")
+                f.close()
+
+                f = open("BeliefPoints" + str(i) + "txt", "a+")
+                for belief in belief_points:
+                    f.write(str(belief) + "\n")
+                f.close()
 
             # implementing epsilon greedy action selection with two epsilon e1 = 0.3, e2 = 0.1
-            random_num = np.random.randint(10)
-            if random_num == 0:
-                action = pomdp.choose_random_act(ctx.actions)
-            else:
-                action = pomdp.get_greedy_action(belief)
+            # random_num = np.random.randint(10)
+            # if random_num == 0:
+            #     action = pomdp.choose_random_act(ctx.actions)
+            # else:
+            action = pomdp.get_greedy_action(belief)
             print(" @@@@@ action: ", action)
 
             # action = pomdp.get_action(belief)
@@ -142,6 +148,10 @@ class PomdpRunner:
             # writing total rewards in a file
             f = open("Rewards.txt", "a+")
             f.write(str(reward) + "\n")
+            f.close()
+
+            f = open("times.txt", "a+")
+            f.write(str(time.time() - t_start) + "\n")
             f.close()
 
             # # writing total rewards in a file
